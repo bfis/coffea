@@ -179,8 +179,8 @@ class FactorizedJetCorrector(object):
                 args.append(localargs[input])
             corr = func(*tuple(args))
             for var in corrVars:
-                localargs[var] *= corr
-            cumulativeCorrection *= corr
+                localargs[var] = localargs[var] * corr
+            cumulativeCorrection = cumulativeCorrection * corr
             corrections.append(cumulativeCorrection)
         if counts is not None:
             for i in range(len(corrections)):
