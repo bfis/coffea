@@ -791,7 +791,10 @@ def _work_function(item, processor_instance, flatten=False, savemetrics=False,
                 df['dataset'] = item.dataset
                 df['filename'] = item.filename
             tic = time.time()
-            out = processor_instance.process(df)
+            try:
+                out = processor_instance.process(df)
+            except Exception as e:
+                raise Exception(f"Failed processing file: {item.filename} ({item.entrystart}-{item.entrystop})") from e
             toc = time.time()
             metrics = dict_accumulator()
             if savemetrics:
