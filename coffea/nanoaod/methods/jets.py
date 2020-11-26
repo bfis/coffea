@@ -4,7 +4,7 @@ import awkward
 
 class FatJet(LorentzVector):
     '''NanoAOD large radius jet object'''
-    enable_genjet = False
+    enable_genjet = True
     'Set True if FatJet_genJetAK8Idx is available'
     subjetmap = {'FatJet': 'SubJet'}  # V6 has 'GenJetAK8': 'SubGenJetAK8', maybe better to put in generator.py
     'If additional large-radius jet collections are available, add here their associated subjet collections'
@@ -40,7 +40,6 @@ class FatJet(LorentzVector):
             )
             embedded_genjet.__doc__ = genjet.__doc__
             self['matched_gen'] = embedded_genjet
-            del self['genJetAK8Idx']
 
         if 'FatJetPFCands' in events.columns:
             pfcand_link = events['FatJetPFCands']
