@@ -22,7 +22,7 @@ def split_jec_name(name):
     info = name.split('_')
 
     # Check for the case of regrouped jes uncertainties
-    if "Regrouped" in info:
+    if info[0].startswith("Regrouped"):
         info.pop(0)
         if "UncertaintySources" in info:
             subinfo = info[info.index("UncertaintySources"):]
