@@ -168,18 +168,19 @@ class JetTransformer(object):
 
             ptGenJet = np.zeros_like(jet.pt.content) if forceStochastic else jet.ptGenJet.content
 
-            doHybrid = ptGenJet > 0
+            deltaPtRel = (jet.pt.content - ptGenJet) / jet.pt.content
+            doHybrid = (ptGenJet > 0) & (deltaPtRel < 3 * jer)
 
             jsmear_cen = np.where(doHybrid,
-                                  1 + (jersf[:, 0] - 1) * (jet.pt.content - ptGenJet) / jet.pt.content,
+                                  1 + (jersf[:, 0] - 1) * deltaPtRel,
                                   1. + np.sqrt(np.maximum(jersf[:, 0]**2 - 1.0, 0)) * jersmear)
 
             jsmear_up = np.where(doHybrid,
-                                 1 + (jersf[:, 1] - 1) * (jet.pt.content - ptGenJet) / jet.pt.content,
+                                 1 + (jersf[:, 1] - 1) * deltaPtRel,
                                  1. + np.sqrt(np.maximum(jersf[:, 1]**2 - 1.0, 0)) * jersmear)
 
             jsmear_down = np.where(doHybrid,
-                                   1 + (jersf[:, -1] - 1) * (jet.pt.content - ptGenJet) / jet.pt.content,
+                                   1 + (jersf[:, -1] - 1) * deltaPtRel,
                                    1. + np.sqrt(np.maximum(jersf[:, -1]**2 - 1.0, 0)) * jersmear)
 
             # from PhysicsTools/PatUtils/interface/SmearedJetProducerT.h#L255-L264
