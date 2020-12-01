@@ -169,7 +169,7 @@ class JetTransformer(object):
             ptGenJet = np.zeros_like(jet.pt.content) if forceStochastic else jet.ptGenJet.content
 
             deltaPtRel = (jet.pt.content - ptGenJet) / jet.pt.content
-            doHybrid = (ptGenJet > 0) & (deltaPtRel < 3 * jer)
+            doHybrid = (ptGenJet > 0) & (abs(deltaPtRel) < 3 * jer)
 
             jsmear_cen = np.where(doHybrid,
                                   1 + (jersf[:, 0] - 1) * deltaPtRel,
