@@ -164,7 +164,9 @@ class JetTransformer(object):
             args = {key: getattr(jet, _signature_map[key]).content for key in self._jersf.signature}
             jersf = self._jersf.getScaleFactor(**args)
 
-            jersmear = jer * np.random.normal(size=jer.size)
+            jersmear = jer * np.random.default_rng(
+                seed=jet.ptRaw.content.view(np.uint32)[:100]
+            ).normal(size=jer.size)
 
             ptGenJet = np.zeros_like(jet.pt.content) if forceStochastic else jet.ptGenJet.content
 
